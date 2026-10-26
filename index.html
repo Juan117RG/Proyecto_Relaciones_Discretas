@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Relaciones · Laboratorio interactivo</title>
+    <!-- Presentación visual separada de la estructura. -->
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <!-- Encabezado e identidad del laboratorio. -->
+    <header>
+      <div class="logo">
+        <span>R</span>Relaciones<span
+          style="
+            background: none;
+            color: #839287;
+            font-weight: 400;
+            font-size: 13px;
+          "
+        >
+          / Laboratorio</span
+        >
+      </div>
+      <small>Matemáticas discretas</small>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <div class="eyebrow">EXPLORA · CONECTA · COMPRUEBA</div>
+          <h1>Una matriz. Todas sus relaciones.</h1>
+          <p class="muted" style="margin: 0">
+            Construye una relación binaria y descubre qué nos dice su grafo.
+          </p>
+        </div>
+        <div class="live">● Análisis en tiempo real</div>
+      </div>
+      <!-- Captura de la matriz y representación gráfica. -->
+      <div class="grid">
+        <section class="panel">
+          <div class="panelhead">
+            <h2>Matriz de la relación</h2>
+            <span class="step">01 / CONSTRUYE</span>
+          </div>
+          <div class="controls">
+            <label for="size">Tamaño m × m</label
+            ><select id="size" aria-label="Tamaño de la matriz"></select>
+          </div>
+          <p class="legend">
+            Filas y columnas: a, b, c, … Haz clic en una celda para alternar
+            entre 0 y 1.
+          </p>
+          <div class="matrixwrap" id="matrix"></div>
+          <div class="legend">
+            Fila = origen · Columna = destino<br /><b
+              style="color: var(--green)"
+              >1</b
+            >
+            existe relación · <b>0</b> no existe relación
+          </div>
+          <div class="buttons">
+            <button class="primary" id="random">↻ Aleatoria</button
+            ><button id="clear">Vaciar</button>
+          </div>
+          <select
+            class="field"
+            id="example"
+            aria-label="Cargar una relación de ejemplo"
+          >
+            <option value="">Cargar un ejemplo…</option>
+            <option value="chain">Cadena sin cierre transitivo</option>
+            <option value="mixed">No simétrica, pero tampoco asimétrica</option>
+            <option value="identity">Identidad / equivalencia</option>
+            <option value="order">Orden total ≤</option>
+            <option value="strict">Orden estricto &lt;</option>
+            <option value="full">Relación universal</option>
+            <option value="empty">Relación vacía</option>
+          </select>
+          <div class="note" style="margin-top: 18px">
+            El conjunto base es <b id="base"></b>.<br />Un 1 en la fila a y
+            columna b representa (a,b), es decir, una flecha de a hacia b. Los
+            valores siguen siendo 0 y 1.
+          </div>
+        </section>
+        <div>
+          <section class="panel graphpanel">
+            <div class="panelhead">
+              <h2>Grafo dirigido</h2>
+              <span class="step">02 / VISUALIZA</span>
+            </div>
+            <svg
+              class="graph"
+              id="graph"
+              viewBox="0 0 640 360"
+              role="img"
+              aria-label="Grafo dirigido de la relación"
+            ></svg>
+            <div class="stats">
+              <span><strong id="nodes"></strong>vértices</span
+              ><span><strong id="edges"></strong>aristas</span
+              ><span><strong id="loops"></strong>lazos</span>
+            </div>
+            <p class="legend">
+              Arrastra los vértices para reorganizar el grafo. Selecciona una
+              propiedad para ver su contraejemplo.
+            </p>
+          </section>
+          <section class="panel pairs">
+            <div class="panelhead">
+              <h2>Pares ordenados</h2>
+              <button id="copy" style="font-size: 12px; padding: 6px 10px">
+                Copiar R
+              </button>
+            </div>
+            <div class="set" id="pairs" aria-live="polite"></div>
+            <div class="toast" id="toast" role="status"></div>
+          </section>
+        </div>
+      </div>
+      <!-- Resultados de las propiedades y explicación del caso seleccionado. -->
+      <section class="panel properties">
+        <div class="panelhead">
+          <h2>¿Qué propiedades cumple?</h2>
+          <span class="step">03 / COMPRUEBA</span>
+        </div>
+        <div class="cards" id="cards"></div>
+        <div class="explanation" id="explanation" aria-live="polite"></div>
+        <details class="note" style="margin-top: 16px">
+          <summary>Cómo interpretar las cuatro propiedades</summary>
+          <p>
+            <b>xRy</b> significa “x se relaciona con y”, no necesariamente x=y.
+            Las condiciones se revisan sobre todos los elementos y pares, no
+            solo sobre un ejemplo.
+          </p>
+          <p>
+            <b>Reflexiva:</b> deben aparecer (a,a), (b,b), (c,c), … para todo el
+            conjunto.
+          </p>
+          <p>
+            <b>Simétrica:</b> si aparece (a,b), debe aparecer (b,a), y lo mismo
+            para todos los pares.
+          </p>
+          <p>
+            <b>Asimétrica:</b> si aparece (a,b), no puede aparecer (b,a);
+            tampoco puede haber lazos. No ser simétrica no basta:
+            R={(a,b),(b,a),(b,c)} no es simétrica porque falta (c,b), pero
+            tampoco es asimétrica porque contiene (a,b) y (b,a).
+          </p>
+          <p>
+            <b>Transitiva:</b> si aparecen (a,b) y (b,c), debe aparecer (a,c).
+            También se revisan cadenas que repiten elementos. Si no hay cadenas
+            de dos enlaces, no existe un contraejemplo y la condición se cumple.
+          </p>
+        </details>
+      </section>
+      <section class="panel classification">
+        <div class="icon">∴</div>
+        <div>
+          <h2>Interpretación y tipo de relación</h2>
+          <div class="tags" id="types"></div>
+          <p id="interpretation" style="margin-bottom: 0"></p>
+        </div>
+      </section>
+      <footer>
+        <span>Relaciones binarias y teoría de grafos</span
+        ><span>Interfaz en HTML, CSS y JavaScript · m de 1 a 10</span>
+      </footer>
+    </main>
+    <!-- El orden importa: primero el análisis matemático y después la interfaz. -->
+    <script src="js/analisis.js"></script>
+    <script src="js/aplicacion.js"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+# Archivos locales que no forman parte del proyecto.
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
